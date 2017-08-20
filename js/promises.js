@@ -10,6 +10,11 @@ function getJSON(url, callback) {
 	xobj.send(null);  
 }
 
+// ********************** 
+
 getJSON('api/data.json', result => {
 	console.log(result);
+	getJSON('api/location/' + result.location, result => {
+		console.log(result);
+	});
 });

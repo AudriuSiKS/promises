@@ -14,6 +14,10 @@ app.get('/api/data.json', function (req, res) {
   res.sendFile(path.join(__dirname, 'data/data.json'));
 })
 
+app.get('/api/location/Vilnius', function (req, res) {
+  res.sendFile(path.join(__dirname, 'data/Vilnius.json'));
+})
+
 app.listen(3000, function () {
   console.log('Promises simple app listening on port 3000!')
 })
