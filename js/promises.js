@@ -12,9 +12,25 @@ function getJSON(url, callback) {
 
 // ********************** 
 
-getJSON('api/data.json', result => {
-	console.log(result);
-	getJSON('api/location/' + result.location, result => {
-		console.log(result);
-	});
+let ninja, mapInfo, plan;
+
+getJSON('api/ninja', result => {
+	ninja = result;
+	actionItemArrived();
 });
+
+getJSON('api/mapInfo', result => {
+	mapInfo = result;
+	actionItemArrived();
+});
+
+getJSON('api/plan', result => {
+	plan = result;
+	actionItemArrived();
+});
+
+function actionItemArrived() {
+	if (ninja != null && mapInfo != null && plan != null) {
+		console.log('The ninja is informed and ready for action');
+	}
+};
