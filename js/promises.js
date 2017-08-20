@@ -10,27 +10,49 @@ function getJSON(url, callback) {
 	xobj.send(null);  
 }
 
+function report(message) {
+	const node = document.createElement('li');
+	const textnode = document.createTextNode(message);
+	node.appendChild(textnode);
+	document.getElementById("myList").appendChild(node);
+}
+
 // ********************** 
 
-let ninja, mapInfo, plan;
+report('At the code start');
 
-getJSON('api/ninja', result => {
-	ninja = result;
-	actionItemArrived();
-});
+const ninjaDelayedPromise = new Promise((resolve, reject) => {
+	report('ninjaDelayedPromise executor');
+	setTimeout(() => {
+		report(' Resolving ninjaDelayedPromise');
+		resolve('Hattori');
+	}, 500);
+})
 
-getJSON('api/mapInfo', result => {
-	mapInfo = result;
-	actionItemArrived();
-});
+//ninjaDelayedPromise is in pending state
 
-getJSON('api/plan', result => {
-	plan = result;
-	actionItemArrived();
-});
+if (ninjaDelayedPromise !== null) {
+	report('After creating ninjaDelayedPromise');
+}
 
-function actionItemArrived() {
-	if (ninja != null && mapInfo != null && plan != null) {
-		console.log('The ninja is informed and ready for action');
+ninjaDelayedPromise.then(ninja => {
+	if (ninja === 'Hattori') {
+		report('ninjaDelayedPromise resolved with Hattori');
 	}
-};
+});
+
+const ninjaImmediatePromise = new Promise((resolve, reject) => {
+	report('ninjaImmediatePromise executor. Immediate resolve.');
+	resolve('Yoshi'); //The promise is immedietely resolved
+});
+
+//ninjaImmediatePromise state is resolved
+
+ninjaImmediatePromise.then(ninja => {
+	if (ninja === 'Yoshi') {
+		//even is the promise is resolved, the callback is called after the code in current event loop step is executed.
+		report('ninjaImmediatePromise resolve handled with Yoshi')
+	}
+})
+
+report('At the code end');
