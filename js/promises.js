@@ -3,8 +3,8 @@ function getJSON(url, callback) {
     request.overrideMimeType("application/json");
 	request.open('GET', url, true);
 
-	request.onreadystatechange = function () {
-		if (request.readyState == 4 && request.status == "200") {
+	request.onload = function () {
+		if (request.status == "200") {
 			callback(JSON.parse(request.responseText));
 		}
 	};
